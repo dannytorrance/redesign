@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Import dat — PDS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#001e42;
+    --primary:#0061A1;
+    --secondary:#0077C7;
+    --accent-orange:#e28743;
+    --success:#059669;
+    --danger-bg:#fef2f2;
+    --danger-border:#fecaca;
+    --danger-title:#991b1b;
+    --danger-text:#b91c1c;
+    --danger-icon-bg:#fee2e2;
+    --page-bg:#f0f4f8;
+    --content-bg:#f8fafc;
+    --ink:#0f172a;
+    --ink-2:#141c2b;
+    --muted:#64748b;
+    --muted-2:#94a3b8;
+    --muted-3:#a0aab8;
+    --border:#e2eaf0;
+    --border-2:#cbd5e1;
+    --chip-bg:#eef2f7;
+    --font: 'Geist', 'Inter', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:var(--font);
+    background:var(--page-bg);
+    color:var(--ink);
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+
+  .page{
+    display:flex;
+    min-height:100vh;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar{
+    width:340px;
+    flex-shrink:0;
+    min-height:100vh;
+    background:linear-gradient(137deg, rgba(0,30,66,0.97) 8%, rgba(0,85,160,0.93) 58%, rgba(0,119,199,0.9) 91%);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:40px 36px 44px;
+  }
+  .sidebar-top{display:flex;flex-direction:column;gap:40px;}
+  .brand-mark{
+    display:flex;align-items:center;gap:8px;
+    opacity:0.9;
+  }
+  .brand-mark svg{height:18px;width:auto;}
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:500;
+    color:rgba(255,255,255,0.75);
+    transition:color .15s ease;
+  }
+  .back-btn:hover{color:#fff;}
+  .back-btn svg{width:11px;height:11px;}
+
+  .steps{display:flex;flex-direction:column;gap:20px;padding-top:24px;}
+  .steps-label{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.45);
+  }
+  .step{display:flex;align-items:center;gap:12px;}
+  .step-badge{
+    width:28px;height:28px;
+    border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:600;
+    background:rgba(255,255,255,0.15);
+    color:rgba(255,255,255,0.5);
+    flex-shrink:0;
+    transition:background .2s ease, color .2s ease;
+  }
+  .step-label{
+    font-size:13px;
+    color:rgba(255,255,255,0.45);
+    font-weight:400;
+    transition:color .2s ease, font-weight .2s ease;
+  }
+  .step.is-current .step-badge{background:var(--secondary);color:#fff;}
+  .step.is-current .step-label{color:#fff;font-weight:600;}
+  .step.is-done .step-badge{background:var(--success);color:#fff;}
+  .step.is-done .step-label{color:rgba(255,255,255,0.92);font-weight:600;}
+  .step.is-done .step-badge svg{width:14px;height:14px;}
+  .step-connector{width:1px;height:20px;background:rgba(255,255,255,0.12);margin-left:13px;}
+
+  .sidebar-footer{display:flex;flex-direction:column;gap:12px;}
+  .sidebar-footer-rule{width:268px;height:1px;background:rgba(255,255,255,0.1);}
+  .sidebar-footer-text{
+    display:flex;gap:12px;align-items:flex-start;
+    font-size:12px;
+    line-height:1.65;
+    color:rgba(255,255,255,0.4);
+    max-width:268px;
+  }
+  .sidebar-footer-text svg{width:16px;height:16px;flex-shrink:0;margin-top:1px;}
+
+  /* ===== CONTENT ===== */
+  .content{
+    flex:1;
+    background:var(--content-bg);
+    display:flex;
+    justify-content:center;
+  }
+  .content-inner{
+    width:100%;
+    max-width:600px;
+    padding:48px 32px;
+    display:flex;
+    flex-direction:column;
+  }
+  .back-btn-mobile{display:none;}
+  h1{
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-0.5px;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .subtitle{
+    font-size:14px;
+    color:var(--muted);
+    margin:0 0 32px;
+    line-height:1.6;
+  }
+
+  .card{
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 4px 16px rgba(0,24,60,0.08);
+    padding:32px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+
+  /* Error banner */
+  .error-banner{
+    display:flex;gap:12px;align-items:flex-start;
+    background:var(--danger-bg);
+    border:1.5px solid var(--danger-border);
+    border-radius:12px;
+    padding:15.5px 17.5px;
+  }
+  .error-icon{
+    width:32px;height:32px;flex-shrink:0;
+    background:var(--danger-icon-bg);
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .error-icon svg{width:16px;height:16px;color:var(--danger-title);}
+  .error-body{flex:1;}
+  .error-title{font-size:13px;font-weight:600;color:var(--danger-title);margin:0 0 2px;}
+  .error-text{font-size:12px;color:var(--danger-text);margin:0;line-height:1.5;}
+  .error-text b{font-weight:700;}
+  .error-close{
+    width:19px;height:19px;flex-shrink:0;
+    background:transparent;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:4px;
+    color:var(--danger-text);
+    opacity:0.7;
+  }
+  .error-close:hover{opacity:1;}
+  .error-close svg{width:15px;height:15px;}
+
+  /* Dropzone */
+  .dropzone{
+    border:1px dashed var(--border-2);
+    border-radius:16px;
+    background:#fafbfd;
+    padding:53px 33px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .dropzone:hover, .dropzone.is-dragover{
+    border-color:var(--secondary);
+    background:#f0f8ff;
+  }
+  .dropzone.is-error{
+    border:2px dashed #fca5a5;
+    background:#fff7f7;
+    padding:54px 34px;
+  }
+  .dz-icon-wrap{
+    width:72px;height:72px;
+    border-radius:36px;
+    background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .dz-icon-wrap svg{width:30px;height:30px;color:var(--secondary);}
+  .dz-title{font-size:15px;font-weight:600;color:var(--ink-2);margin:0;}
+  .dz-sub{font-size:13px;color:var(--muted-2);margin:0;}
+  .dz-sub span{color:var(--secondary);font-weight:500;}
+  .format-chips{display:flex;gap:8px;padding-top:4px;}
+  .format-chips span{
+    background:var(--chip-bg);
+    color:var(--muted);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.3px;
+    padding:3px 10px;
+    border-radius:20px;
+  }
+
+  /* File card (selected / verified) */
+  .file-card{
+    display:flex;align-items:center;gap:16px;
+    background:var(--content-bg);
+    border:1.5px solid var(--border);
+    border-radius:14px;
+    padding:17.5px 21.5px;
+  }
+  .file-icon{
+    width:44px;height:44px;flex-shrink:0;
+    background:#dbeafe;
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .file-icon svg{width:22px;height:22px;color:var(--secondary);}
+  .file-info{flex:1;min-width:0;}
+  .file-name{font-size:14px;font-weight:600;color:var(--ink-2);margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .file-meta{font-size:12px;color:var(--muted-3);margin:0;}
+  .file-remove{
+    width:24px;height:24px;flex-shrink:0;
+    background:transparent;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:6px;
+    color:var(--muted-2);
+  }
+  .file-remove:hover{background:var(--border);color:var(--ink);}
+  .file-remove svg{width:16px;height:16px;}
+
+  .divider{height:1px;background:#f1f5f9;}
+
+  /* Buttons inside card */
+  .btn-select{
+    background:var(--border);
+    color:var(--muted-2);
+    font-size:15px;
+    font-weight:600;
+    padding:14px;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;
+  }
+  .btn-select svg{width:17px;height:17px;}
+  .btn-select:hover{background:#d5e0ea;}
+
+  .btn-submit{
+    background:linear-gradient(174deg, #0077C7 0%, #005fa8 100%);
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    padding:14px;
+    border-radius:12px;
+    width:100%;
+    box-shadow:0 4px 10px rgba(0,119,199,0.3);
+    transition:filter .15s ease;
+  }
+  .btn-submit:hover{filter:brightness(1.05);}
+  .btn-submit:disabled{opacity:0.7;cursor:default;}
+
+  .consent{
+    font-size:12px;
+    color:var(--muted-2);
+    text-align:center;
+    margin:0;
+    line-height:1.6;
+  }
+  .consent span{color:var(--secondary);font-weight:500;}
+
+  /* Success view */
+  .success-view{
+    display:flex;flex-direction:column;align-items:center;gap:24px;
+    padding:20px 0;
+    text-align:center;
+  }
+  .success-icon{
+    width:80px;height:80px;
+    border-radius:40px;
+    background:linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .success-icon svg{width:40px;height:40px;color:var(--success);}
+  .success-title{font-size:22px;font-weight:700;letter-spacing:-0.4px;color:var(--ink-2);margin:0 0 8px;}
+  .success-text{font-size:14px;color:var(--muted);margin:0;line-height:1.65;}
+  .success-text b{color:#334155;font-weight:600;}
+  .success-divider{width:100%;height:1px;background:var(--border);}
+  .btn-secondary{
+    background:#f1f5f9;
+    color:#334155;
+    font-size:14px;
+    font-weight:600;
+    padding:13px;
+    border-radius:12px;
+    width:100%;
+  }
+  .btn-secondary:hover{background:#e7edf3;}
+  .btn-primary-link{
+    display:block;
+    background:linear-gradient(174deg, #0077C7 0%, #005fa8 100%);
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    padding:14px;
+    border-radius:12px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,119,199,0.3);
+  }
+
+  /* Supported formats footer */
+  .formats-footer{margin-top:24px;}
+  .formats-rule{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .formats-rule .line{flex:1;height:1px;background:var(--border);}
+  .formats-rule span{font-size:12px;color:var(--muted-2);white-space:nowrap;}
+  .formats-badges{display:flex;justify-content:center;gap:48px;}
+  .format-badge{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .format-badge .sq{
+    width:40px;height:40px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:10px;font-weight:800;letter-spacing:0.3px;
+  }
+  .format-badge span{font-size:11px;color:var(--muted-2);}
+
+  .hidden{display:none !important;}
+
+  /* Responsive */
+  @media (max-width:860px){
+    .sidebar{display:none;}
+    .back-btn-mobile{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:13px;
+      font-weight:500;
+      color:var(--muted-2);
+      margin-bottom:24px;
+    }
+    .back-btn-mobile svg{width:11px;height:11px;}
+    .content-inner{padding:28px 20px;}
+    .formats-badges{gap:24px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="brand-mark">
+        <svg viewBox="0 0 203 144" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M126.806 93.3351C127.36 95.0284 128.252 96.5523 129.434 97.9069C130.832 99.5034 132.761 100.761 135.197 101.729C137.632 102.696 140.767 103.156 144.6 103.156C148.434 103.156 149.881 102.721 152.172 101.898C154.462 101.052 156.415 99.8905 158.031 98.4149C159.646 96.9394 160.9 95.1735 161.792 93.1174C162.685 91.0613 163.119 88.8117 163.119 86.3202C163.119 83.8286 162.781 82.6192 162.154 80.9259C161.503 79.2327 160.587 77.6603 159.405 76.209C158.224 74.7576 156.825 73.3788 155.186 72.1209C153.546 70.8631 151.738 69.702 149.76 68.6377C148 67.6701 146.529 66.8718 145.324 66.2187C144.118 65.5898 143.13 64.985 142.358 64.4529C141.586 63.9207 141.032 63.3402 140.718 62.7838C140.381 62.2033 140.212 61.4534 140.212 60.5584C140.212 59.2038 140.622 58.0668 141.442 57.0993C142.262 56.1559 143.371 55.6721 144.769 55.6721C146.168 55.6721 147.18 56.0833 148.073 56.9299C148.748 57.5589 149.326 58.1636 149.592 59.0586L160.731 53.0354C159.96 51.1245 158.875 49.4796 157.452 48.1008C155.933 46.601 154.052 45.4641 151.786 44.6417C149.519 43.8192 146.939 43.408 144.022 43.408C141.104 43.408 139.006 43.8434 136.812 44.6901C134.618 45.5609 132.737 46.7462 131.122 48.2217C129.506 49.6973 128.277 51.4873 127.409 53.5192C126.516 55.5753 126.082 57.7766 126.082 60.123C126.082 62.4693 126.323 63.7756 126.83 65.3237C127.336 66.8718 128.035 68.299 128.952 69.6294C129.868 70.9357 130.929 72.1451 132.159 73.2095C133.388 74.2738 134.763 75.2656 136.234 76.1606C137.656 77.1282 139.151 78.0232 140.67 78.7972C142.189 79.5955 143.564 80.3454 144.769 81.0952C145.975 81.8451 146.988 82.6192 147.783 83.4416C148.579 84.2399 148.965 85.1591 148.965 86.1508C148.965 87.6022 148.458 88.7633 147.446 89.6099C146.433 90.4566 145.251 90.8678 143.901 90.8678C142.551 90.8678 141.345 90.4808 140.357 89.7067C139.561 89.102 139.079 88.4247 138.669 87.3603L126.757 93.2867L126.806 93.3351Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M54.7827 61.0422C54.7827 60.4132 54.9033 59.7843 55.1444 59.2038C55.3855 58.599 55.7231 58.0911 56.1812 57.6073C56.6394 57.1235 57.1457 56.7606 57.7726 56.4946C58.3754 56.2285 59.0506 56.0833 59.798 56.0833C60.5455 56.0833 61.2207 56.2285 61.8235 56.4946C62.4263 56.7848 62.9326 57.1477 63.3666 57.6315C63.8007 58.1152 64.1141 58.6474 64.3552 59.2522C64.5964 59.8569 64.7169 60.4374 64.7169 61.0422V85.5703C64.7169 86.8282 64.2829 87.9893 63.3908 89.0052C62.4986 90.0212 61.293 90.5292 59.798 90.5292C58.3031 90.5292 58.3754 90.4082 57.7726 90.1421C57.1698 89.876 56.6394 89.5374 56.1812 89.0778C55.7472 88.6424 55.3855 88.1344 55.1444 87.578C54.9033 87.0217 54.7827 86.4411 54.7827 85.8606V61.0664V61.0422ZM40.653 118.081C40.653 119.339 41.2558 119.992 42.4855 119.992H52.9743C54.1558 119.992 54.7586 119.363 54.7586 118.105V101.632C55.916 102.116 57.0493 102.503 58.1825 102.769C59.3158 103.035 60.425 103.156 61.4859 103.156C63.9694 103.156 66.2601 102.745 68.382 101.922C70.5038 101.1 72.3122 99.9389 73.8554 98.4391C75.3986 96.9394 76.6042 95.1494 77.4722 93.0449C78.3403 90.9404 78.7743 88.6424 78.7743 86.1267V60.5342C78.7743 58.0185 78.2679 55.7205 77.2793 53.616C76.2666 51.5115 74.9164 49.6973 73.1803 48.1976C71.4442 46.6736 69.4188 45.5125 67.104 44.6901C64.7893 43.8676 62.3057 43.4564 59.6534 43.4564C57.001 43.4564 54.5416 43.8676 52.2268 44.6901C49.888 45.5125 47.8867 46.6736 46.1506 48.1976C44.4145 49.7215 43.0642 51.5115 42.0756 53.616C41.087 55.7205 40.6048 58.0185 40.6048 60.51V118.105L40.653 118.081Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M107.444 85.5703C107.444 86.1992 107.323 86.8282 107.082 87.4087C106.841 88.0134 106.503 88.5214 106.045 89.0052C105.587 89.489 105.081 89.8518 104.454 90.1179C103.851 90.4082 103.176 90.5292 102.428 90.5292C101.681 90.5292 100.958 90.384 100.355 90.1179C99.7519 89.8518 99.2214 89.4648 98.8115 89.0052C98.3775 88.5456 98.064 88.0134 97.847 87.4087C97.63 86.8282 97.5095 86.1992 97.5095 85.5703V61.0422C97.5095 59.7843 97.9435 58.6474 98.8356 57.6073C99.7278 56.5913 100.909 56.0591 102.428 56.0591C103.947 56.0591 103.827 56.1801 104.43 56.4462C105.008 56.7122 105.539 57.0751 105.973 57.5105C106.407 57.9459 106.769 58.4781 106.986 59.0344C107.227 59.615 107.371 60.1955 107.395 60.7761V85.5219L107.444 85.5703ZM121.549 26.2093C121.549 24.9515 120.922 24.2983 119.644 24.2983H109.276C108.046 24.2983 107.444 24.9273 107.444 26.2093V45.0287C105.032 43.9644 102.766 43.4322 100.644 43.4322C98.5222 43.4322 95.8698 43.8434 93.7721 44.6659C91.6743 45.4883 89.8659 46.6494 88.3227 48.1492C86.7796 49.6489 85.574 51.4389 84.7059 53.5434C83.8379 55.6479 83.4039 57.9459 83.4039 60.4616V86.0541C83.4039 88.594 83.9102 90.9162 84.8988 92.9965C85.9115 95.0768 87.2618 96.891 88.9979 98.3907C90.7098 99.9147 92.7353 101.076 95.0741 101.898C97.3889 102.721 99.8725 103.132 102.525 103.132C105.177 103.132 107.637 102.721 109.951 101.898C112.266 101.076 114.292 99.8905 116.028 98.3907C117.764 96.891 119.114 95.0768 120.103 92.9965C121.091 90.9162 121.573 88.594 121.573 86.0541V26.2093H121.549Z" fill="currentColor"/></svg>
+      </div>
+
+      <a href="index.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12l6-6M5 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Zpět na web
+      </a>
+
+      <div class="steps">
+        <div class="steps-label">Postup</div>
+
+        <div class="step is-current" id="stepRow1">
+          <div class="step-badge">1</div>
+          <div class="step-label">Vyberte soubor</div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step" id="stepRow2">
+          <div class="step-badge">2</div>
+          <div class="step-label">Odešlete data</div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step" id="stepRow3">
+          <div class="step-badge">3</div>
+          <div class="step-label">Hotovo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-rule"></div>
+      <div class="sidebar-footer-text">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Vaše data jsou šifrovaná a zpracovávána v souladu s GDPR. Soubory nejsou sdíleny s třetími stranami.</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="content-inner">
+      <a href="index.html" class="back-btn-mobile">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12l6-6M5 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Zpět na web
+      </a>
+
+      <h1>Import dat</h1>
+      <p class="subtitle">Nahrajte váš Excel nebo CSV soubor. Zpracujeme ho a obratem se vám ozveme.</p>
+
+      <div class="card" id="uploadCard">
+
+        <!-- Error banner -->
+        <div class="error-banner hidden" id="errorBanner">
+          <div class="error-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="error-body">
+            <p class="error-title">Nepodporovaný formát souboru</p>
+            <p class="error-text" id="errorText">Soubor <b>.svg</b> není podporován. Nahrajte prosím soubor ve formátu <b>.xlsx</b>, <b>.xls</b> nebo <b>.csv</b>.</p>
+          </div>
+          <button class="error-close" id="errorClose" aria-label="Zavřít">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+        <!-- Dropzone -->
+        <div class="dropzone" id="dropzone">
+          <div class="dz-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M5 17v1.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="dz-title" id="dzTitle">Přetáhněte soubor sem</p>
+          <p class="dz-sub">nebo <span>klikněte pro výběr</span></p>
+          <div class="format-chips"><span>.xlsx</span><span>.xls</span><span>.csv</span></div>
+        </div>
+
+        <!-- File card (verified) -->
+        <div class="file-card hidden" id="fileCard">
+          <div class="file-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 2v6h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="file-info">
+            <p class="file-name" id="fileName">soubor.xlsx</p>
+            <p class="file-meta" id="fileMeta">— · Ověřuji obsah…</p>
+          </div>
+          <button class="file-remove" id="fileRemove" aria-label="Odebrat soubor">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+        <div class="divider hidden" id="fileDivider"></div>
+
+        <button class="btn-select" id="selectBtn">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          Vyberte soubor
+        </button>
+
+        <button class="btn-submit hidden" id="submitBtn">Odeslat soubor</button>
+
+        <p class="consent" id="consentText">Přenosem souhlasíte se zpracováním osobních údajů dle <span>GDPR podmínek</span></p>
+
+        <!-- Success view -->
+        <div class="success-view hidden" id="successView">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h2 class="success-title">Soubor úspěšně odeslán</h2>
+            <p class="success-text">Soubor <b id="successFileName">soubor.xlsx</b> byl přijat.<br>Náš tým se vám brzy ozve.</p>
+          </div>
+          <div class="success-divider"></div>
+          <button class="btn-secondary" id="uploadAnotherBtn">Nahrát další soubor</button>
+          <a class="btn-primary-link" href="index.html">Zpět na web</a>
+        </div>
+
+      </div>
+
+      <div class="formats-footer" id="formatsFooter">
+        <div class="formats-rule">
+          <div class="line"></div>
+          <span>Podporované formáty</span>
+          <div class="line"></div>
+        </div>
+        <div class="formats-badges">
+          <div class="format-badge"><div class="sq" style="background:#0061A1">XLSX</div><span>Excel 2007+</span></div>
+          <div class="format-badge"><div class="sq" style="background:#0077C7">XLS</div><span>Excel 97–2003</span></div>
+          <div class="format-badge"><div class="sq" style="background:#e28743">CSV</div><span>Comma-separated</span></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<input type="file" id="fileInput" accept=".xlsx,.xls,.csv" class="hidden">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const selectBtn = document.getElementById('selectBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const fileCard = document.getElementById('fileCard');
+  const fileName = document.getElementById('fileName');
+  const fileMeta = document.getElementById('fileMeta');
+  const fileRemove = document.getElementById('fileRemove');
+  const fileDivider = document.getElementById('fileDivider');
+  const errorBanner = document.getElementById('errorBanner');
+  const errorText = document.getElementById('errorText');
+  const errorClose = document.getElementById('errorClose');
+  const successView = document.getElementById('successView');
+  const successFileName = document.getElementById('successFileName');
+  const uploadAnotherBtn = document.getElementById('uploadAnotherBtn');
+  const consentText = document.getElementById('consentText');
+  const formatsFooter = document.getElementById('formatsFooter');
+  const dzTitle = document.getElementById('dzTitle');
+
+  const stepRow1 = document.getElementById('stepRow1');
+  const stepRow2 = document.getElementById('stepRow2');
+  const stepRow3 = document.getElementById('stepRow3');
+  const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  const ALLOWED = ['xlsx','xls','csv'];
+  let currentFile = null;
+
+  function ext(name){
+    return (name.split('.').pop() || '').toLowerCase();
+  }
+  function formatBytes(bytes){
+    if(bytes < 1024) return bytes + ' B';
+    if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/(1024*1024)).toFixed(1) + ' MB';
+  }
+
+  function setStep(step){
+    [stepRow1, stepRow2, stepRow3].forEach((row, i)=>{
+      const n = i+1;
+      row.classList.remove('is-current','is-done');
+      const badge = row.querySelector('.step-badge');
+      if(n < step){
+        row.classList.add('is-done');
+        badge.innerHTML = CHECK_SVG;
+      } else if(n === step){
+        row.classList.add('is-current');
+        badge.textContent = n;
+      } else {
+        badge.textContent = n;
+      }
+    });
+  }
+
+  function showError(msg){
+    errorText.innerHTML = msg;
+    errorBanner.classList.remove('hidden');
+    dropzone.classList.add('is-error');
+  }
+  function hideError(){
+    errorBanner.classList.add('hidden');
+    dropzone.classList.remove('is-error');
+  }
+
+  function resetToIdle(){
+    currentFile = null;
+    fileInput.value = '';
+    hideError();
+    dropzone.classList.remove('hidden');
+    fileCard.classList.add('hidden');
+    fileDivider.classList.add('hidden');
+    selectBtn.classList.remove('hidden');
+    submitBtn.classList.add('hidden');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Odeslat soubor';
+    successView.classList.add('hidden');
+    consentText.classList.remove('hidden');
+    formatsFooter.classList.remove('hidden');
+    dzTitle.textContent = 'Přetáhněte soubor sem';
+    setStep(1);
+  }
+
+  function showSelectedState(file, metaText){
+    fileName.textContent = file.name;
+    fileMeta.textContent = metaText;
+    dropzone.classList.add('hidden');
+    hideError();
+    fileCard.classList.remove('hidden');
+    fileDivider.classList.remove('hidden');
+    selectBtn.classList.add('hidden');
+    submitBtn.classList.remove('hidden');
+    setStep(2);
+  }
+
+  function verifyAndShow(file){
+    const e = ext(file.name);
+    if(ALLOWED.indexOf(e) === -1){
+      showError('Soubor <b>.' + (e || '?') + '</b> není podporován. Nahrajte prosím soubor ve formátu <b>.xlsx</b>, <b>.xls</b> nebo <b>.csv</b>.');
+      return;
+    }
+    currentFile = file;
+    // Provisional state while verifying
+    showSelectedState(file, formatBytes(file.size) + ' · ' + e.toUpperCase() + ' · ověřuji obsah…');
+
+    if(typeof XLSX === 'undefined'){
+      // Verification library unavailable (e.g. offline) — fall back to basic info only.
+      fileMeta.textContent = formatBytes(file.size) + ' · ' + e.toUpperCase();
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(evt){
+      try{
+        const data = new Uint8Array(evt.target.result);
+        const wb = XLSX.read(data, {type:'array'});
+        const sheetNames = wb.SheetNames || [];
+        let rowCount = 0;
+        if(sheetNames.length){
+          const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetNames[0]], {header:1});
+          rowCount = rows.length;
+        }
+        const sheetsLabel = sheetNames.length === 1 ? '1 list' : sheetNames.length + ' listy';
+        const rowsLabel = rowCount + (rowCount === 1 ? ' řádek' : ' řádků');
+        fileMeta.textContent = formatBytes(file.size) + ' · ' + e.toUpperCase() + ' · ' + sheetsLabel + ' · ' + rowsLabel;
+      }catch(err){
+        showError('Soubor se nepodařilo přečíst. Zkontrolujte prosím, že není poškozený, a zkuste to znovu.');
+        dropzone.classList.remove('hidden');
+        fileCard.classList.add('hidden');
+        fileDivider.classList.add('hidden');
+        selectBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+        setStep(1);
+      }
+    };
+    reader.onerror = function(){
+      showError('Soubor se nepodařilo načíst. Zkuste to prosím znovu.');
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  // Click to browse
+  dropzone.addEventListener('click', ()=> fileInput.click());
+  selectBtn.addEventListener('click', ()=> fileInput.click());
+  fileInput.addEventListener('change', (e)=>{
+    if(e.target.files && e.target.files[0]) verifyAndShow(e.target.files[0]);
+  });
+
+  // Drag and drop
+  ['dragenter','dragover'].forEach(evt=>{
+    dropzone.addEventListener(evt, (e)=>{
+      e.preventDefault(); e.stopPropagation();
+      dropzone.classList.add('is-dragover');
+    });
+  });
+  ['dragleave','drop'].forEach(evt=>{
+    dropzone.addEventListener(evt, (e)=>{
+      e.preventDefault(); e.stopPropagation();
+      dropzone.classList.remove('is-dragover');
+    });
+  });
+  dropzone.addEventListener('drop', (e)=>{
+    const dt = e.dataTransfer;
+    if(dt && dt.files && dt.files[0]) verifyAndShow(dt.files[0]);
+  });
+
+  errorClose.addEventListener('click', hideError);
+  fileRemove.addEventListener('click', resetToIdle);
+
+  submitBtn.addEventListener('click', ()=>{
+    if(!currentFile) return;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Odesílání…';
+    // Simulated submission — replace with a real API call when a backend is available.
+    setTimeout(()=>{
+      successFileName.textContent = currentFile.name;
+      fileCard.classList.add('hidden');
+      fileDivider.classList.add('hidden');
+      submitBtn.classList.add('hidden');
+      consentText.classList.add('hidden');
+      formatsFooter.classList.add('hidden');
+      successView.classList.remove('hidden');
+      setStep(4); // marks steps 1 & 2 done, no current
+      stepRow3.classList.add('is-done');
+      stepRow3.classList.remove('is-current');
+      stepRow3.querySelector('.step-badge').innerHTML = CHECK_SVG;
+    }, 900);
+  });
+
+  uploadAnotherBtn.addEventListener('click', resetToIdle);
+
+  resetToIdle();
+})();
+</script>
+</body>
+</html>
