@@ -537,13 +537,20 @@
       display:flex;
       position:absolute;
       top:74px;left:0;right:0;
-      background:var(--hero-bg);
+      background:#03141E;
       flex-direction:column;
       padding:20px 32px;
       z-index:60;
-      gap:16px;
-      border-bottom:1px solid rgba(242,251,255,0.1);
+      gap:18px;
+      border-bottom:1px solid rgba(242,251,255,0.14);
+      box-shadow:0 16px 32px rgba(0,0,0,0.4);
     }
+    nav.menu.open a{
+      color:#F2FBFF;
+      font-size:18px;
+      font-weight:600;
+    }
+    nav.menu.open a:hover{color:var(--accent);}
     .news-grid{grid-template-columns:1fr;}
     .contact-grid{grid-template-columns:1fr;}
     .footer-grid{grid-template-columns:1fr 1fr;}
