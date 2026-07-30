@@ -876,7 +876,17 @@ themeToggle.addEventListener('click', ()=>{
 const menuToggle = document.getElementById('menuToggle');
 const mainMenu = document.getElementById('mainMenu');
 menuToggle.addEventListener('click', ()=> mainMenu.classList.toggle('open'));
-document.querySelectorAll('#mainMenu a').forEach(a=> a.addEventListener('click', ()=> mainMenu.classList.remove('open')));
+document.querySelectorAll('a[href^="#"]:not(#watchVideoBtn)').forEach(a=>{
+  a.addEventListener('click', (e)=>{
+    const id = a.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    mainMenu.classList.remove('open');
+    if(!target) return;
+    e.preventDefault();
+    const targetY = target.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({top: targetY, behavior:'smooth'});
+  });
+});
 
 const backToTopBtn = document.getElementById('backToTop');
 backToTopBtn.addEventListener('click', ()=>{
