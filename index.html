@@ -310,6 +310,122 @@
   .video-caption h3{font-size:20px;color:#fff;}
   .video-caption p{margin:8px 0 0;font-size:14px;color:#CFE9F5;}
 
+  /* ===== PROJECTS ===== */
+  .projects{
+    padding:110px 0;
+    background:var(--bg-alt);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .projects-head{max-width:640px;margin-bottom:56px;}
+  .projects-head h2{font-size:clamp(28px,4vw,42px);margin-bottom:14px;}
+  .projects-head p{color:var(--text-muted);font-size:15.5px;}
+  .projects-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:24px;
+    margin-bottom:48px;
+  }
+  .project-card{
+    background:var(--bg-raised);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:28px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition:transform .2s ease, border-color .2s ease;
+  }
+  .project-card:hover{transform:translateY(-4px);border-color:var(--secondary);}
+  .project-badge{
+    width:52px;height:52px;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.02em;
+  }
+  .project-card h3{font-size:18px;margin:0;}
+  .project-card .project-company{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-muted);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+  .project-card p{color:var(--text-muted);font-size:14.5px;margin:0;}
+  .projects-quote, .quote-block{
+    background:var(--bg-raised);
+    border:1px solid var(--border);
+    border-left:3px solid var(--secondary);
+    border-radius:var(--radius);
+    padding:28px 32px;
+  }
+  .projects-quote p, .quote-block p{
+    font-size:17px;
+    font-style:italic;
+    color:var(--text);
+    margin:0 0 14px;
+    line-height:1.6;
+  }
+  .projects-quote cite, .quote-block cite{
+    font-style:normal;
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-muted);
+  }
+  @media (max-width:700px){
+    .projects-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===== REFERENCES ===== */
+  .references{
+    padding:110px 0;
+    background:var(--bg);
+  }
+  .references-head{max-width:640px;margin-bottom:48px;}
+  .references-head h2{font-size:clamp(28px,4vw,42px);margin-bottom:14px;}
+  .references-head p{color:var(--text-muted);font-size:15.5px;}
+  .references-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    margin-bottom:48px;
+  }
+  .reference-item{
+    background:var(--bg-alt);
+    padding:22px 24px;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+  }
+  .reference-badge{
+    width:36px;height:36px;
+    flex-shrink:0;
+    border-radius:8px;
+    background:var(--bg-raised);
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:700;
+  }
+  .reference-item h3{font-size:14.5px;margin:0 0 4px;color:var(--text);}
+  .reference-item p{font-size:13px;color:var(--text-muted);margin:0;line-height:1.5;}
+  @media (max-width:900px){
+    .references-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:600px){
+    .references-grid{grid-template-columns:1fr;}
+  }
+
   /* ===== BLOG / NEWS ===== */
   .news{
     padding:110px 0;
@@ -610,8 +726,8 @@
 
     <nav class="menu" id="mainMenu">
       <a href="#about" data-i18n="nav.about">O nás</a>
-      <a href="#projects" data-i18n="nav.projects">Projekty</a>
-      <a href="#references" data-i18n="nav.references">Reference</a>
+      <a href="projects/" data-i18n="nav.projects">Projekty</a>
+      <a href="clients/" data-i18n="nav.references">Reference</a>
       <a href="#news" data-i18n="nav.news">Aktuality</a>
       <a href="#contact" data-i18n="nav.contact">Kontakt</a>
       <a href="import-dat.html" data-i18n="nav.dataimport">Import dat</a>
@@ -649,6 +765,8 @@
     <p data-i18n="video.text">Krátká ukázka toho, jak našim klientům pomáháme navrhovat a doručovat zákaznickou komunikaci napříč kanály.</p>
   </div>
 </section>
+
+<!-- ============ PROJECTS ============ -->
 
 <!-- ============ NEWS / BLOG ============ -->
 <section class="news" id="news">
@@ -688,6 +806,8 @@
     </div>
   </div>
 </section>
+
+<!-- ============ REFERENCES ============ -->
 
 <!-- ============ CONTACT ============ -->
 <section class="contact" id="contact">
@@ -752,11 +872,11 @@
         <a href="#news" data-i18n="nav.news">Aktuality</a>
         <a href="#about" data-i18n="nav.about">O nás</a>
         <a href="#tech" data-i18n="nav.tech">Technologie</a>
-        <a href="#projects" data-i18n="nav.projects">Projekty</a>
+        <a href="projects/" data-i18n="nav.projects">Projekty</a>
       </div>
       <div class="footer-col">
         <h4 data-i18n="footer.moreTitle">Více</h4>
-        <a href="#references" data-i18n="nav.references">Reference</a>
+        <a href="clients/" data-i18n="nav.references">Reference</a>
         <a href="import-dat.html" data-i18n="nav.dataimport">Import dat</a>
         <a href="#contact" data-i18n="nav.contact">Kontakt</a>
       </div>
@@ -786,6 +906,30 @@ const dict = {
       ctaSecondary:"Kontaktujte nás"
     },
     video:{title:"Podívejte se na Omnichannel komunikaci v praxi",text:"Krátká ukázka toho, jak našim klientům pomáháme navrhovat a doručovat zákaznickou komunikaci napříč kanály."},
+    projects:{
+      eyebrow:"Projekty",heading:"Vybrané realizované projekty",intro:"Při realizaci zákaznických řešení využíváme dlouholetých zkušeností napříč obory — bankovnictvím, pojišťovnictvím, telekomunikacemi i energetikou.",
+      card1:{company:"O2 Czech Republic",title:"Centralizace zákaznické komunikace",text:"Přechod na platformu Scriptura Engage sjednotil tiskovou i elektronickou komunikaci a zkrátil návrh nových šablon z týdnů na hodiny."},
+      card2:{company:"Raiffeisenbank",title:"Multikanálová komunikace s klienty",text:"Centralizované řešení pokrývá celé portfolio klientské komunikace včetně dávkových i on-line procesů s interaktivní personalizací dokumentů."},
+      card3:{company:"Kooperativa & ČPP",title:"Moderní klientská komunikace",text:"Sjednocený output management na platformě Scriptura Engage a Archiva pokrývá tiskové i elektronické kanály napříč celým produktovým portfoliem."},
+      card4:{company:"Centropol",title:"Sjednocení komunikace v energetice",text:"Řešení na platformě Scriptura Engage zpřehlednilo a automatizovalo komunikaci pro stovky tisíc odběratelů energie."},
+      quote:{text:"„Po celou dobu implementace jsme se mohli spolehnout na profesionalitu týmu PDS.“",author:"Radim Musil, IT Operations Director, O2 Czech Republic"}
+    },
+    references:{
+      eyebrow:"Reference",heading:"Naši spokojení zákazníci",intro:"Přehled úspěšných projektů realizovaných v České republice i v zahraničí. Naše technologie využívají významné korporace napříč obory.",
+      item1:{name:"O2 Czech Republic",text:"Centralizované řešení pokrývající veškerou zákaznickou komunikaci."},
+      item2:{name:"Raiffeisenbank",text:"Centrální output management pro celé portfolio klientské komunikace."},
+      item3:{name:"Kooperativa pojišťovna",text:"Přední pojišťovna na trhu využívající Scriptura Engage pro klientskou komunikaci."},
+      item4:{name:"Česká podnikatelská pojišťovna",text:"Stejná platforma Scriptura Engage a Archiva jako sesterská Kooperativa."},
+      item5:{name:"Pražská energetika",text:"Vysokokapacitní elektronický archiv s rychlým online přístupem k dokumentům."},
+      item6:{name:"ČEZ",text:"Zpracování dokumentů pro distribuci elektřiny a plynu ve více zemích."},
+      item7:{name:"Optys",text:"Zpracování dat a automatizace tiskových a obálkovacích služeb."},
+      item8:{name:"Komerční banka",text:"Centrální archiv klientských dokumentů s kapacitou přes 1,25 miliardy stran."},
+      item9:{name:"Centropol",text:"Sjednocený a automatizovaný output management pro energetiku."},
+      item10:{name:"Cashdirect",text:"Zpracování odchozí korespondence prostřednictvím služby ProDoc Channel."},
+      item11:{name:"Česká spořitelna",text:"Zpracování a distribuce klientských dokumentů přes tiskové centrum."},
+      item12:{name:"Sky",text:"Šablony klientských dokumentů na platformě Scriptura Engage pro 11M+ domácností ve Velké Británii."},
+      quote:{text:"„Nové řešení nám umožňuje navrhnout a nasadit nové šablony dokumentů, e-mailů i SMS v řádu hodin místo týdnů.“",author:"Ondřej Veselý, Team Leader – Digital Processes, O2 Czech Republic"}
+    },
     news:{
       eyebrow:"Aktuality",heading:"Co je nového",tagNew:"Nové",readMore:"Číst více →",
       card1:{date:"12. 6. 2026",title:"Mobilní telefon je dnes komunikační kanál #1",text:"Umíte toho využít lépe než vaše konkurence?"},
@@ -810,6 +954,30 @@ const dict = {
       ctaSecondary:"Contact us"
     },
     video:{title:"See Omnichannel communication in action",text:"A short look at how we help our clients design and deliver communication across every channel."},
+    projects:{
+      eyebrow:"Projects",heading:"Selected client projects",intro:"We bring years of cross-industry experience to every engagement — in banking, insurance, telecommunications, and energy.",
+      card1:{company:"O2 Czech Republic",title:"Centralizing customer communication",text:"Moving to the Scriptura Engage platform unified print and digital communication and cut new template turnaround from weeks to hours."},
+      card2:{company:"Raiffeisenbank",title:"Multichannel client communication",text:"The centralized solution covers the bank's entire communication portfolio, including batch and on-demand processes with interactive document personalization."},
+      card3:{company:"Kooperativa & ČPP",title:"Modern customer communication",text:"A unified Output Management solution on Scriptura Engage and Archiva spans print and digital channels across the full product portfolio."},
+      card4:{company:"Centropol",title:"Unifying energy-sector communication",text:"A Scriptura Engage solution streamlined and automated communication for hundreds of thousands of energy customers."},
+      quote:{text:"\"Throughout the implementation, we could rely on the PDS team's professionalism and flexibility.\"",author:"Radim Musil, IT Operations Director, O2 Czech Republic"}
+    },
+    references:{
+      eyebrow:"References",heading:"Our satisfied customers",intro:"An overview of successful projects delivered in the Czech Republic and abroad. Leading corporations across every sector rely on our technology.",
+      item1:{name:"O2 Czech Republic",text:"A centralized solution covering the full scope of customer communication."},
+      item2:{name:"Raiffeisenbank",text:"Central Output Management for the bank's entire communication portfolio."},
+      item3:{name:"Kooperativa pojišťovna",text:"A market-leading insurer using Scriptura Engage for client communication."},
+      item4:{name:"Česká podnikatelská pojišťovna",text:"The same Scriptura Engage and Archiva platform as sister company Kooperativa."},
+      item5:{name:"Pražská energetika",text:"A high-capacity electronic archive with fast online access to documents."},
+      item6:{name:"ČEZ",text:"Document processing for electricity and gas distribution across several countries."},
+      item7:{name:"Optys",text:"Data processing and automation for print and mailing services."},
+      item8:{name:"Komerční banka",text:"A central client document archive with a capacity of over 1.25 billion pages."},
+      item9:{name:"Centropol",text:"A unified, automated Output Management solution for the energy sector."},
+      item10:{name:"Cashdirect",text:"Outgoing correspondence processing via our ProDoc Channel service."},
+      item11:{name:"Česká spořitelna",text:"Client document processing and distribution through a press center."},
+      item12:{name:"Sky",text:"Client document templates on the Scriptura Engage platform for 11M+ UK homes."},
+      quote:{text:"\"The new solution lets us design and deploy new document, email, and SMS templates in hours instead of weeks.\"",author:"Ondřej Veselý, Team Leader – Digital Processes, O2 Czech Republic"}
+    },
     news:{
       eyebrow:"News",heading:"What's new",tagNew:"New",readMore:"Read more →",
       card1:{date:"Jun 12, 2026",title:"Mobile is the #1 communication channel today",text:"Are you using it better than your competitors?"},
@@ -834,6 +1002,30 @@ const dict = {
       ctaSecondary:"Nous contacter"
     },
     video:{title:"Découvrez la communication omnicanale en action",text:"Un aperçu de la façon dont nous aidons nos clients à concevoir et diffuser leur communication sur tous les canaux."},
+    projects:{
+      eyebrow:"Projets",heading:"Projets clients sélectionnés",intro:"Nous apportons une expérience multisectorielle à chaque projet — banque, assurance, télécommunications et énergie.",
+      card1:{company:"O2 Czech Republic",title:"Centralisation de la communication client",text:"Le passage à la plateforme Scriptura Engage a unifié la communication papier et numérique, réduisant le délai de création des modèles de plusieurs semaines à quelques heures."},
+      card2:{company:"Raiffeisenbank",title:"Communication client omnicanale",text:"La solution centralisée couvre l'ensemble du portefeuille de communication de la banque, avec des processus par lot et à la demande."},
+      card3:{company:"Kooperativa & ČPP",title:"Communication client moderne",text:"Une solution unifiée d'Output Management sur Scriptura Engage et Archiva couvre les canaux papier et numériques sur tout le portefeuille produits."},
+      card4:{company:"Centropol",title:"Unification de la communication énergétique",text:"Une solution Scriptura Engage a simplifié et automatisé la communication pour des centaines de milliers de clients du secteur de l'énergie."},
+      quote:{text:"« Tout au long du déploiement, nous avons pu compter sur le professionnalisme de l'équipe PDS. »",author:"Radim Musil, directeur des opérations IT, O2 Czech Republic"}
+    },
+    references:{
+      eyebrow:"Références",heading:"Nos clients satisfaits",intro:"Un aperçu des projets réalisés avec succès en République tchèque et à l'étranger. De grandes entreprises de tous secteurs font confiance à notre technologie.",
+      item1:{name:"O2 Czech Republic",text:"Une solution centralisée couvrant l'ensemble de la communication client."},
+      item2:{name:"Raiffeisenbank",text:"Un Output Management central pour tout le portefeuille de communication client."},
+      item3:{name:"Kooperativa pojišťovna",text:"Un assureur leader utilisant Scriptura Engage pour sa communication client."},
+      item4:{name:"Česká podnikatelská pojišťovna",text:"La même plateforme Scriptura Engage et Archiva que sa société sœur Kooperativa."},
+      item5:{name:"Pražská energetika",text:"Une archive électronique haute capacité avec accès rapide aux documents en ligne."},
+      item6:{name:"ČEZ",text:"Traitement de documents pour la distribution d'électricité et de gaz dans plusieurs pays."},
+      item7:{name:"Optys",text:"Traitement de données et automatisation des services d'impression et de mise sous pli."},
+      item8:{name:"Komerční banka",text:"Une archive centrale de documents clients de plus de 1,25 milliard de pages."},
+      item9:{name:"Centropol",text:"Un Output Management unifié et automatisé pour le secteur de l'énergie."},
+      item10:{name:"Cashdirect",text:"Traitement du courrier sortant via notre service ProDoc Channel."},
+      item11:{name:"Česká spořitelna",text:"Traitement et distribution de documents clients via un centre de presse."},
+      item12:{name:"Sky",text:"Modèles de documents clients sur Scriptura Engage pour plus de 11 millions de foyers au Royaume-Uni."},
+      quote:{text:"« La nouvelle solution nous permet de concevoir et déployer de nouveaux modèles de documents, e-mails et SMS en quelques heures au lieu de plusieurs semaines. »",author:"Ondřej Veselý, Team Leader – Digital Processes, O2 Czech Republic"}
+    },
     news:{
       eyebrow:"Actualités",heading:"Quoi de neuf",tagNew:"Nouveau",readMore:"Lire la suite →",
       card1:{date:"12/06/2026",title:"Le mobile est aujourd'hui le canal de communication n°1",text:"L'utilisez-vous mieux que vos concurrents ?"},
