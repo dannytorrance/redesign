@@ -376,6 +376,92 @@
     .content-inner{padding:28px 20px;}
     .formats-badges{gap:24px;}
   }
+
+  /* ===== CASE STUDY FAB + MODAL ===== */
+  .case-study-fab{
+    position:fixed;
+    right:38px;
+    bottom:104px;
+    z-index:65;
+    width:56px;height:56px;
+    border-radius:50%;
+    background:#0a0a0a;
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.32);
+    cursor:pointer;
+    border:none;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .case-study-fab:hover{background:#2a2a2a;transform:translateY(-2px);}
+  .case-study-fab svg{width:23px;height:23px;}
+  .fab-tooltip{
+    position:absolute;
+    right:calc(100% + 12px);
+    top:50%;
+    transform:translateY(-50%) translateX(4px);
+    background:#0a0a0a;
+    color:#fff;
+    font-size:12px;
+    font-weight:500;
+    padding:7px 12px;
+    border-radius:7px;
+    white-space:nowrap;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+  .case-study-fab:hover .fab-tooltip{opacity:1;transform:translateY(-50%) translateX(0);}
+
+  .cs-modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(10,10,10,0.6);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    z-index:300;
+    display:none;
+    align-items:center;justify-content:center;
+    padding:40px;
+    opacity:0;
+    transition:opacity .25s ease;
+  }
+  .cs-modal-overlay.is-open{display:flex;opacity:1;}
+  .cs-modal-panel{
+    position:relative;
+    width:100%;
+    max-width:1000px;
+    height:88vh;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,0.45);
+    transform:scale(0.96);
+    transition:transform .25s ease;
+  }
+  .cs-modal-overlay.is-open .cs-modal-panel{transform:scale(1);}
+  .cs-modal-panel iframe{width:100%;height:100%;border:0;display:block;}
+  .cs-modal-close{
+    position:absolute;
+    top:16px;right:16px;
+    width:44px;height:44px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(4px);
+    border:none;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,0.18);
+    z-index:2;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .cs-modal-close:hover{background:#fff;transform:scale(1.07);}
+  .cs-modal-close svg{width:20px;height:20px;color:#1d1d1f;}
+
+  @media (max-width:700px){
+    .case-study-fab{right:26px;bottom:92px;width:50px;height:50px;}
+    .cs-modal-overlay{padding:0;}
+    .cs-modal-panel{max-width:100%;height:100%;border-radius:0;}
+  }
 </style>
 </head>
 <body>
@@ -713,6 +799,35 @@
 
   resetToIdle();
 })();
+</script>
+
+<button class="case-study-fab" id="caseStudyFab" aria-label="Zobrazit case study">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  <span class="fab-tooltip">Zobrazit case study</span>
+</button>
+
+<div class="cs-modal-overlay" id="caseStudyModal">
+  <div class="cs-modal-panel">
+    <button class="cs-modal-close" id="caseStudyClose" aria-label="Zavřít">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+    <iframe id="caseStudyIframe" data-src="../../case-study/case-study-pds-website.html" title="Case study"></iframe>
+  </div>
+</div>
+<script>
+const caseStudyFab = document.getElementById('caseStudyFab');
+const caseStudyModal = document.getElementById('caseStudyModal');
+const caseStudyClose = document.getElementById('caseStudyClose');
+const caseStudyIframe = document.getElementById('caseStudyIframe');
+function openCaseStudy(){
+  if(!caseStudyIframe.src) caseStudyIframe.src = caseStudyIframe.getAttribute('data-src');
+  caseStudyModal.classList.add('is-open');
+}
+function closeCaseStudy(){ caseStudyModal.classList.remove('is-open'); }
+caseStudyFab.addEventListener('click', openCaseStudy);
+caseStudyClose.addEventListener('click', closeCaseStudy);
+caseStudyModal.addEventListener('click', (e)=>{ if(e.target === caseStudyModal) closeCaseStudy(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeCaseStudy(); });
 </script>
 </body>
 </html>
