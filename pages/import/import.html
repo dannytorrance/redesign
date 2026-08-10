@@ -378,10 +378,16 @@
   }
 
   /* ===== CASE STUDY FAB + MODAL ===== */
-  .case-study-fab{
+  .fab-wrapper{
     position:fixed;
     right:38px;
-    bottom:104px;
+    bottom:38px;
+    z-index:65;
+  }
+  .case-study-fab{
+    position:absolute;
+    right:0;
+    bottom:0;
     z-index:65;
     width:56px;height:56px;
     border-radius:50%;
@@ -458,7 +464,8 @@
   .cs-modal-close svg{width:20px;height:20px;color:#1d1d1f;}
 
   @media (max-width:700px){
-    .case-study-fab{right:26px;bottom:92px;width:50px;height:50px;}
+    .fab-wrapper{right:26px;bottom:26px;}
+    .case-study-fab{width:50px;height:50px;}
     .cs-modal-overlay{padding:0;}
     .cs-modal-panel{max-width:100%;height:100%;border-radius:0;}
   }
@@ -606,6 +613,13 @@
 <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" class="hidden">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<div class="fab-wrapper">
+<button class="case-study-fab" id="caseStudyFab" aria-label="Zobrazit case study">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  <span class="fab-tooltip">Zobrazit case study</span>
+</button>
+</div>
+
 <script>
 (function(){
   const dropzone = document.getElementById('dropzone');
@@ -801,17 +815,14 @@
 })();
 </script>
 
-<button class="case-study-fab" id="caseStudyFab" aria-label="Zobrazit case study">
-  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-  <span class="fab-tooltip">Zobrazit case study</span>
-</button>
+
 
 <div class="cs-modal-overlay" id="caseStudyModal">
   <div class="cs-modal-panel">
     <button class="cs-modal-close" id="caseStudyClose" aria-label="Zavřít">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
     </button>
-    <iframe id="caseStudyIframe" data-src="../../case-study/case-study-pds-website.html" title="Case study"></iframe>
+    <iframe id="caseStudyIframe" data-src="../../case-study/case-study-pds.html" title="Case study"></iframe>
   </div>
 </div>
 <script>

@@ -568,10 +568,16 @@
   .form-success.show{display:block;}
 
   /* ===== BACK TO TOP (floating) ===== */
-  .back-to-top{
+  .fab-wrapper{
     position:fixed;
     right:38px;
     bottom:38px;
+    z-index:65;
+  }
+  .back-to-top{
+    position:absolute;
+    right:0;
+    bottom:0;
     z-index:70;
     display:flex;
     align-items:center;
@@ -601,7 +607,9 @@
   .back-to-top:hover{background:var(--primary);}
   .back-to-top svg{width:14px;height:14px;flex-shrink:0;}
   @media (max-width:600px){
-    .back-to-top{right:26px;bottom:26px;padding:11px 16px;font-size:12px;}
+    .fab-wrapper{right:26px;bottom:26px;}
+    .back-to-top{padding:11px 16px;font-size:12px;}
+    .fab-wrapper:has(.back-to-top.is-visible) .case-study-fab{transform:translateX(-128px);}
   }
 
   /* ===== FOOTER ===== */
@@ -688,9 +696,9 @@
 
   /* ===== CASE STUDY FAB + MODAL ===== */
   .case-study-fab{
-    position:fixed;
-    right:38px;
-    bottom:104px;
+    position:absolute;
+    right:0;
+    bottom:0;
     z-index:65;
     width:56px;height:56px;
     border-radius:50%;
@@ -703,6 +711,8 @@
     transition:transform .2s ease, background .2s ease;
   }
   .case-study-fab:hover{background:#2a2a2a;transform:translateY(-2px);}
+  .fab-wrapper:has(.back-to-top.is-visible) .case-study-fab{transform:translateX(-152px);}
+  .fab-wrapper:has(.back-to-top.is-visible) .case-study-fab:hover{transform:translateX(-152px) translateY(-2px);}
   .case-study-fab svg{width:23px;height:23px;}
   .fab-tooltip{
     position:absolute;
@@ -767,7 +777,7 @@
   .cs-modal-close svg{width:20px;height:20px;color:#1d1d1f;}
 
   @media (max-width:700px){
-    .case-study-fab{right:26px;bottom:92px;width:50px;height:50px;}
+    .case-study-fab{width:50px;height:50px;}
     .cs-modal-overlay{padding:0;}
     .cs-modal-panel{max-width:100%;height:100%;border-radius:0;}
   }
@@ -816,10 +826,10 @@
     <nav class="menu" id="mainMenu">
       <a href="#about" data-i18n="nav.about">O nás</a>
       <a href="#news" data-i18n="nav.news">Aktuality</a>
-      <a href="pages/projects/" data-i18n="nav.projects">Projekty</a>
-      <a href="pages/clients/" data-i18n="nav.references">Reference</a>
+      <a href="pages/projects/projects.html" data-i18n="nav.projects">Projekty</a>
+      <a href="pages/clients/clients.html" data-i18n="nav.references">Reference</a>
       <a href="#contact" data-i18n="nav.contact">Kontakt</a>
-      <a href="pages/import/" data-i18n="nav.dataimport">Import dat</a>
+      <a href="pages/import/import.html" data-i18n="nav.dataimport">Import dat</a>
     </nav>
 
     <div class="controls">
@@ -937,10 +947,7 @@
 </section>
 
 <!-- ============ BACK TO TOP (floating) ============ -->
-<button class="back-to-top" id="backToTop">
-  <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span data-i18n="backToTop">Zpět nahoru</span>
-</button>
+
 
 <!-- ============ FOOTER ============ -->
 <footer id="about">
@@ -961,12 +968,12 @@
         <a href="#news" data-i18n="nav.news">Aktuality</a>
         <a href="#about" data-i18n="nav.about">O nás</a>
         <a href="#tech" data-i18n="nav.tech">Technologie</a>
-        <a href="pages/projects/" data-i18n="nav.projects">Projekty</a>
+        <a href="pages/projects/projects.html" data-i18n="nav.projects">Projekty</a>
       </div>
       <div class="footer-col">
         <h4 data-i18n="footer.moreTitle">Více</h4>
-        <a href="pages/clients/" data-i18n="nav.references">Reference</a>
-        <a href="pages/import/" data-i18n="nav.dataimport">Import dat</a>
+        <a href="pages/clients/clients.html" data-i18n="nav.references">Reference</a>
+        <a href="pages/import/import.html" data-i18n="nav.dataimport">Import dat</a>
         <a href="#contact" data-i18n="nav.contact">Kontakt</a>
       </div>
       <div class="footer-col">
@@ -982,6 +989,17 @@
     </div>
   </div>
 </footer>
+
+<div class="fab-wrapper">
+<button class="case-study-fab" id="caseStudyFab" aria-label="Zobrazit case study">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  <span class="fab-tooltip">Zobrazit case study</span>
+</button>
+<button class="back-to-top" id="backToTop">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span data-i18n="backToTop">Zpět nahoru</span>
+</button>
+</div>
 
 <script>
 const dict = {
@@ -1222,17 +1240,14 @@ form.addEventListener('submit', (e)=>{
 applyLang('cs');
 </script>
 
-<button class="case-study-fab" id="caseStudyFab" aria-label="Zobrazit case study">
-  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-  <span class="fab-tooltip">Zobrazit case study</span>
-</button>
+
 
 <div class="cs-modal-overlay" id="caseStudyModal">
   <div class="cs-modal-panel">
     <button class="cs-modal-close" id="caseStudyClose" aria-label="Zavřít">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
     </button>
-    <iframe id="caseStudyIframe" data-src="case-study/case-study-pds-website.html" title="Case study"></iframe>
+    <iframe id="caseStudyIframe" data-src="case-study/case-study-pds.html" title="Case study"></iframe>
   </div>
 </div>
 <script>

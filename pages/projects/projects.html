@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="../../images/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="../../images/icon-512.png">
-<title>Reference — PDS</title>
+<title>Projekty — PDS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -569,10 +569,16 @@
   .form-success.show{display:block;}
 
   /* ===== BACK TO TOP (floating) ===== */
-  .back-to-top{
+  .fab-wrapper{
     position:fixed;
     right:38px;
     bottom:38px;
+    z-index:65;
+  }
+  .back-to-top{
+    position:absolute;
+    right:0;
+    bottom:0;
     z-index:70;
     display:flex;
     align-items:center;
@@ -602,7 +608,9 @@
   .back-to-top:hover{background:var(--primary);}
   .back-to-top svg{width:14px;height:14px;flex-shrink:0;}
   @media (max-width:600px){
-    .back-to-top{right:26px;bottom:26px;padding:11px 16px;font-size:12px;}
+    .fab-wrapper{right:26px;bottom:26px;}
+    .back-to-top{padding:11px 16px;font-size:12px;}
+    .fab-wrapper:has(.back-to-top.is-visible) .case-study-fab{transform:translateX(-128px);}
   }
 
   /* ===== FOOTER ===== */
@@ -725,9 +733,9 @@
 
   /* ===== CASE STUDY FAB + MODAL ===== */
   .case-study-fab{
-    position:fixed;
-    right:38px;
-    bottom:104px;
+    position:absolute;
+    right:0;
+    bottom:0;
     z-index:65;
     width:56px;height:56px;
     border-radius:50%;
@@ -740,6 +748,8 @@
     transition:transform .2s ease, background .2s ease;
   }
   .case-study-fab:hover{background:#2a2a2a;transform:translateY(-2px);}
+  .fab-wrapper:has(.back-to-top.is-visible) .case-study-fab{transform:translateX(-152px);}
+  .fab-wrapper:has(.back-to-top.is-visible) .case-study-fab:hover{transform:translateX(-152px) translateY(-2px);}
   .case-study-fab svg{width:23px;height:23px;}
   .fab-tooltip{
     position:absolute;
@@ -804,7 +814,7 @@
   .cs-modal-close svg{width:20px;height:20px;color:#1d1d1f;}
 
   @media (max-width:700px){
-    .case-study-fab{right:26px;bottom:92px;width:50px;height:50px;}
+    .case-study-fab{width:50px;height:50px;}
     .cs-modal-overlay{padding:0;}
     .cs-modal-panel{max-width:100%;height:100%;border-radius:0;}
   }
@@ -829,10 +839,10 @@
     <nav class="menu" id="mainMenu">
       <a href="../../index.html#about" data-i18n="nav.about">O nás</a>
       <a href="../../index.html#news" data-i18n="nav.news">Aktuality</a>
-      <a href="../projects/" data-i18n="nav.projects">Projekty</a>
-      <a href="./" data-i18n="nav.references">Reference</a>
+      <a href="projects.html" data-i18n="nav.projects">Projekty</a>
+      <a href="../clients/clients.html" data-i18n="nav.references">Reference</a>
       <a href="../../index.html#contact" data-i18n="nav.contact">Kontakt</a>
-      <a href="../import/" data-i18n="nav.dataimport">Import dat</a>
+      <a href="../import/import.html" data-i18n="nav.dataimport">Import dat</a>
     </nav>
 
     <div class="controls">
@@ -848,68 +858,44 @@
     </div>
   </div>
   <div class="page-header">
-    <div class="breadcrumb"><a href="../../" data-i18n="breadcrumb.home">Domů</a><span>/</span><span data-i18n="nav.references">Reference</span></div>
-    <div class="eyebrow" data-i18n="references.eyebrow">Reference</div>
-    <h1 data-i18n="references.heading">Naši spokojení zákazníci</h1>
-    <p data-i18n="references.intro">Přehled úspěšných projektů realizovaných v České republice i v zahraničí. Naše technologie využívají významné korporace napříč obory.</p>
+    <div class="breadcrumb"><a href="../../" data-i18n="breadcrumb.home">Domů</a><span>/</span><span data-i18n="nav.projects">Projekty</span></div>
+    <div class="eyebrow" data-i18n="projects.eyebrow">Projekty</div>
+    <h1 data-i18n="projects.heading">Vybrané realizované projekty</h1>
+    <p data-i18n="projects.intro">Při realizaci zákaznických řešení využíváme dlouholetých zkušeností napříč obory — bankovnictvím, pojišťovnictvím, telekomunikacemi i energetikou.</p>
   </div>
 </header>
 
-<section class="references" id="references">
+<section class="projects" id="projects">
   <div class="wrap">
-    <div class="references-grid">
-      <div class="reference-item">
-        <div class="reference-badge">O2</div>
-        <div><h3 data-i18n="references.item1.name">O2 Czech Republic</h3><p data-i18n="references.item1.text">Centralizované řešení pokrývající veškerou zákaznickou komunikaci.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">RB</div>
-        <div><h3 data-i18n="references.item2.name">Raiffeisenbank</h3><p data-i18n="references.item2.text">Centrální output management pro celé portfolio klientské komunikace.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">KOOP</div>
-        <div><h3 data-i18n="references.item3.name">Kooperativa pojišťovna</h3><p data-i18n="references.item3.text">Přední pojišťovna na trhu využívající Scriptura Engage pro klientskou komunikaci.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">ČPP</div>
-        <div><h3 data-i18n="references.item4.name">Česká podnikatelská pojišťovna</h3><p data-i18n="references.item4.text">Stejná platforma Scriptura Engage a Archiva jako sesterská Kooperativa.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">PRE</div>
-        <div><h3 data-i18n="references.item5.name">Pražská energetika</h3><p data-i18n="references.item5.text">Vysokokapacitní elektronický archiv s rychlým online přístupem k dokumentům.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">ČEZ</div>
-        <div><h3 data-i18n="references.item6.name">ČEZ</h3><p data-i18n="references.item6.text">Zpracování dokumentů pro distribuci elektřiny a plynu ve více zemích.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">OPT</div>
-        <div><h3 data-i18n="references.item7.name">Optys</h3><p data-i18n="references.item7.text">Zpracování dat a automatizace tiskových a obálkovacích služeb.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">KB</div>
-        <div><h3 data-i18n="references.item8.name">Komerční banka</h3><p data-i18n="references.item8.text">Centrální archiv klientských dokumentů s kapacitou přes 1,25 miliardy stran.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">CTP</div>
-        <div><h3 data-i18n="references.item9.name">Centropol</h3><p data-i18n="references.item9.text">Sjednocený a automatizovaný output management pro energetiku.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">CD</div>
-        <div><h3 data-i18n="references.item10.name">Cashdirect</h3><p data-i18n="references.item10.text">Zpracování odchozí korespondence prostřednictvím služby ProDoc Channel.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">ČS</div>
-        <div><h3 data-i18n="references.item11.name">Česká spořitelna</h3><p data-i18n="references.item11.text">Zpracování a distribuce klientských dokumentů přes tiskové centrum.</p></div>
-      </div>
-      <div class="reference-item">
-        <div class="reference-badge">SKY</div>
-        <div><h3 data-i18n="references.item12.name">Sky</h3><p data-i18n="references.item12.text">Šablony klientských dokumentů na platformě Scriptura Engage pro 11M+ domácností ve Velké Británii.</p></div>
-      </div>
+    <div class="projects-grid">
+      <article class="project-card">
+        <div class="project-badge" style="background:var(--primary)">O2</div>
+        <div class="project-company" data-i18n="projects.card1.company">O2 Czech Republic</div>
+        <h3 data-i18n="projects.card1.title">Centralizace zákaznické komunikace</h3>
+        <p data-i18n="projects.card1.text">Přechod na platformu Scriptura Engage sjednotil tiskovou i elektronickou komunikaci a zkrátil návrh nových šablon z týdnů na hodiny.</p>
+      </article>
+      <article class="project-card">
+        <div class="project-badge" style="background:var(--secondary)">RB</div>
+        <div class="project-company" data-i18n="projects.card2.company">Raiffeisenbank</div>
+        <h3 data-i18n="projects.card2.title">Multikanálová komunikace s klienty</h3>
+        <p data-i18n="projects.card2.text">Centralizované řešení pokrývá celé portfolio klientské komunikace včetně dávkových i on-line procesů s interaktivní personalizací dokumentů.</p>
+      </article>
+      <article class="project-card">
+        <div class="project-badge" style="background:var(--accent-inverse)">VIG</div>
+        <div class="project-company" data-i18n="projects.card3.company">Kooperativa & ČPP</div>
+        <h3 data-i18n="projects.card3.title">Moderní klientská komunikace</h3>
+        <p data-i18n="projects.card3.text">Sjednocený output management na platformě Scriptura Engage a Archiva pokrývá tiskové i elektronické kanály napříč celým produktovým portfoliem.</p>
+      </article>
+      <article class="project-card">
+        <div class="project-badge" style="background:#334155">CTP</div>
+        <div class="project-company" data-i18n="projects.card4.company">Centropol</div>
+        <h3 data-i18n="projects.card4.title">Sjednocení komunikace v energetice</h3>
+        <p data-i18n="projects.card4.text">Řešení na platformě Scriptura Engage zpřehlednilo a automatizovalo komunikaci pro stovky tisíc odběratelů energie.</p>
+      </article>
     </div>
-    <div class="quote-block">
-      <p data-i18n="references.quote.text">„Nové řešení nám umožňuje navrhnout a nasadit nové šablony dokumentů, e-mailů i SMS v řádu hodin místo týdnů.“</p>
-      <cite data-i18n="references.quote.author">Ondřej Veselý, Team Leader – Digital Processes, O2 Czech Republic</cite>
+    <div class="projects-quote">
+      <p data-i18n="projects.quote.text">„Po celou dobu implementace jsme se mohli spolehnout na profesionalitu týmu PDS.“</p>
+      <cite data-i18n="projects.quote.author">Radim Musil, IT Operations Director, O2 Czech Republic</cite>
     </div>
   </div>
 </section>
@@ -932,12 +918,12 @@
         <a href="../../index.html#news" data-i18n="nav.news">Aktuality</a>
         <a href="../../index.html#about" data-i18n="nav.about">O nás</a>
         <a href="../../index.html#tech" data-i18n="nav.tech">Technologie</a>
-        <a href="../projects/" data-i18n="nav.projects">Projekty</a>
+        <a href="projects.html" data-i18n="nav.projects">Projekty</a>
       </div>
       <div class="footer-col">
         <h4 data-i18n="footer.moreTitle">Více</h4>
-        <a href="./" data-i18n="nav.references">Reference</a>
-        <a href="../import/" data-i18n="nav.dataimport">Import dat</a>
+        <a href="../clients/clients.html" data-i18n="nav.references">Reference</a>
+        <a href="../import/import.html" data-i18n="nav.dataimport">Import dat</a>
         <a href="../../index.html#contact" data-i18n="nav.contact">Kontakt</a>
       </div>
       <div class="footer-col">
@@ -954,10 +940,18 @@
   </div>
 </footer>
 
+
+
+<div class="fab-wrapper">
+<button class="case-study-fab" id="caseStudyFab" aria-label="Zobrazit case study">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  <span class="fab-tooltip">Zobrazit case study</span>
+</button>
 <button class="back-to-top" id="backToTop">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span data-i18n="backToTop">Zpět nahoru</span>
 </button>
+</div>
 
 <script>
 
@@ -1178,17 +1172,14 @@ applyLang('cs');
 
 </script>
 
-<button class="case-study-fab" id="caseStudyFab" aria-label="Zobrazit case study">
-  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-  <span class="fab-tooltip">Zobrazit case study</span>
-</button>
+
 
 <div class="cs-modal-overlay" id="caseStudyModal">
   <div class="cs-modal-panel">
     <button class="cs-modal-close" id="caseStudyClose" aria-label="Zavřít">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
     </button>
-    <iframe id="caseStudyIframe" data-src="../../case-study/case-study-pds-website.html" title="Case study"></iframe>
+    <iframe id="caseStudyIframe" data-src="../../case-study/case-study-pds.html" title="Case study"></iframe>
   </div>
 </div>
 <script>
