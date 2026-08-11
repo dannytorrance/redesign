@@ -148,11 +148,13 @@
     .node-field .pulse{animation:none;opacity:0.6;}
   }
 
-  .topbar{
+  .topbar-wrap{
     position:sticky;
     top:0;
     z-index:80;
     background:var(--hero-bg);
+  }
+  .topbar{
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -786,6 +788,7 @@
 <body>
 
 <!-- ============ HERO ============ -->
+<div class="topbar-wrap">
 <div class="topbar">
     <a href="#" class="logo" aria-label="PDS">
       <svg viewBox="0 0 203 144" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -820,6 +823,7 @@
       </button>
     </div>
   </div>
+</div>
 
 <header class="hero">
   <svg class="node-field" preserveAspectRatio="none" viewBox="0 0 1240 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
