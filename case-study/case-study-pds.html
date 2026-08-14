@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Case Study — PDS Corporate Website</title>
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../images/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../images/icon-512.png">
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap");
 
@@ -186,8 +191,9 @@
       <p class="cs-kicker">UX / Front-End Case Study</p>
       <h1>PDS Corporate Website &amp; Excel Import Micropage</h1>
       <p class="cs-subtitle">
-        A trilingual corporate site and a Figma-spec'd data-upload tool, built
-        from real company content and live design files to working code
+        A trilingual corporate site and a Figma-spec'd data-upload tool,
+        built from real company content and live design files to working
+        code
       </p>
     </header>
 
@@ -201,8 +207,7 @@
           </li>
           <li>
             Two deliverables: a full marketing site (<code>index.html</code>)
-            and a standalone Excel/CSV upload tool
-            (<code>import-dat.html</code>)
+            and a standalone Excel/CSV upload tool (<code>import-dat.html</code>)
           </li>
           <li>
             Upload micropage built to match a Figma spec, node-by-node, across
@@ -218,12 +223,12 @@
         <h2>Project Summary</h2>
         <ul>
           <li>
-            Hero, full-bleed video, news, contact, and footer sections, in that
-            order, with a shared design language
+            Hero, full-bleed video, news, contact, and footer sections, in
+            that order, with a shared design language
           </li>
           <li>
-            Trilingual UI (Czech / English / French) via a single JS dictionary,
-            switched instantly with no reload
+            Trilingual UI (Czech / English / French) via a single JS
+            dictionary, switched instantly with no reload
           </li>
           <li>Light and dark mode, toggled via CSS custom properties</li>
           <li>
@@ -247,8 +252,8 @@
             build (Claude as build partner)
           </li>
           <li>
-            Scope: markup/CSS/JS authoring, Figma token extraction, real content
-            sourcing, QA
+            Scope: markup/CSS/JS authoring, Figma token extraction, real
+            content sourcing, QA
           </li>
           <li>
             Duration: multi-session iterative build, delivered in incremental,
@@ -265,8 +270,8 @@
         <h2>The Problem</h2>
         <ul>
           <li>
-            The site launched with generic placeholder copy that didn't reflect
-            the client's actual CCM/Omnichannel business
+            The site launched with generic placeholder copy that didn't
+            reflect the client's actual CCM/Omnichannel business
           </li>
           <li>
             The data-import flow needed to match an existing Figma design
@@ -288,17 +293,9 @@
       <section class="cs-section">
         <h2>Goals</h2>
         <ul>
-          <li>
-            Replace all placeholder copy with the client's real positioning,
-            contact details, and news
-          </li>
-          <li>
-            Pixel-faithful translation of the Figma upload flow into working
-            states
-          </li>
-          <li>
-            One dictionary-driven i18n system, no per-language page duplication
-          </li>
+          <li>Replace all placeholder copy with the client's real positioning, contact details, and news</li>
+          <li>Pixel-faithful translation of the Figma upload flow into working states</li>
+          <li>One dictionary-driven i18n system, no per-language page duplication</li>
           <li>Consistent, accessible light/dark theming across both pages</li>
           <li>Exact, offset-free scroll behavior for every in-page anchor</li>
           <li>Graceful degradation when third-party scripts fail to load</li>
@@ -317,8 +314,8 @@
           </li>
           <li>
             Identified the company's actual business (Omnichannel customer
-            communication / CCM) and rewrote hero, footer, and news content in
-            all three languages to match
+            communication / CCM) and rewrote hero, footer, and news content
+            in all three languages to match
           </li>
           <li>
             Replaced every placeholder detail (address, contact info, taglines)
@@ -333,12 +330,12 @@
             sidebar stepper, dropzone, file card, error banner, success view
           </li>
           <li>
-            Extracted actual color tokens, spacing, and typography from the file
-            instead of approximating from screenshots
+            Extracted actual color tokens, spacing, and typography from the
+            file instead of approximating from screenshots
           </li>
           <li>
-            Rebuilt each interaction state (idle, drag-over, unsupported file,
-            verified, submitted, success) to match the spec exactly
+            Rebuilt each interaction state (idle, drag-over, unsupported
+            file, verified, submitted, success) to match the spec exactly
           </li>
         </ul>
 
@@ -354,25 +351,25 @@
           </li>
           <li>
             Hero CTA that scrolls to the video section and sets
-            <code>autoplay=1</code> on the iframe synchronously within the click
-            handler, so playback only starts on user intent
+            <code>autoplay=1</code> on the iframe synchronously within the
+            click handler, so playback only starts on user intent
           </li>
           <li>
             Drag-and-drop upload with real client-side verification: file
             extension check, then SheetJS parsing for sheet and row counts
           </li>
           <li>
-            Floating "back to top" button, hidden by default and revealed via an
-            <code>IntersectionObserver</code> on the footer
+            Floating "back to top" button, hidden by default and revealed via
+            an <code>IntersectionObserver</code> on the footer
           </li>
         </ul>
 
         <h3>4. Visual refinement, bug-driven</h3>
         <ul>
           <li>
-            Fixed a stacking-context bug where the mobile flyout menu rendered
-            behind the hero content, by isolating the topbar into its own higher
-            z-index context
+            Fixed a stacking-context bug where the mobile flyout menu
+            rendered behind the hero content, by isolating the topbar into
+            its own higher z-index context
           </li>
           <li>
             Fixed a YouTube "Error 153" embed failure by switching to the
@@ -382,20 +379,20 @@
           <li>
             Fixed imprecise anchor scrolling: replaced CSS
             <code>scroll-margin-top</code>–based jumps with a computed
-            <code>getBoundingClientRect()</code> + <code>scrollTo</code>,
-            applied generically to every in-page anchor
+            <code>getBoundingClientRect()</code> + <code>scrollTo</code>, applied
+            generically to every in-page anchor
           </li>
           <li>
-            Fixed low-contrast mobile navigation: solid dark background, larger
-            and brighter link text, clear hover state
+            Fixed low-contrast mobile navigation: solid dark background,
+            larger and brighter link text, clear hover state
           </li>
           <li>
-            Fixed a footer email link overflowing its container on small screens
-            with <code>overflow-wrap</code>
+            Fixed a footer email link overflowing its container on small
+            screens with <code>overflow-wrap</code>
           </li>
           <li>
-            Reordered mobile header controls (logo → language → theme → menu)
-            via flex <code>order</code>, without touching DOM structure
+            Reordered mobile header controls (logo → language → theme →
+            menu) via flex <code>order</code>, without touching DOM structure
           </li>
         </ul>
 
@@ -406,29 +403,29 @@
             being called done, not just visual review
           </li>
           <li>
-            Verified computed scroll positions, class states, and stacking order
-            directly rather than assuming CSS intent matched output
+            Verified computed scroll positions, class states, and stacking
+            order directly rather than assuming CSS intent matched output
           </li>
           <li>
             Ran the full upload flow (idle → error → verified → success)
-            end-to-end, including a graceful fallback path when the verification
-            library fails to load
+            end-to-end, including a graceful fallback path when the
+            verification library fails to load
           </li>
         </ul>
 
         <h3>6. Assets &amp; handoff</h3>
         <ul>
           <li>
-            Generated a full favicon set (SVG source, multi-size PNGs, ICO) from
-            the brand mark using headless-browser rendering and Pillow
+            Generated a full favicon set (SVG source, multi-size PNGs, ICO)
+            from the brand mark using headless-browser rendering and Pillow
           </li>
           <li>
-            Wired favicons and consistent metadata into both the main site and
-            the import micropage
+            Wired favicons and consistent metadata into both the main site
+            and the import micropage
           </li>
           <li>
-            Kept both pages content-consistent (contact details, branding) after
-            every real-content update
+            Kept both pages content-consistent (contact details, branding)
+            after every real-content update
           </li>
         </ul>
       </section>
